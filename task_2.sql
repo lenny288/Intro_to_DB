@@ -1,0 +1,54 @@
+-- Create tables for alx_book_store
+
+-- Switch to the database
+USE alx_book_store;
+
+-- AUTHORS TABLE
+DROP TABLE IF EXISTS AUTHORS;
+CREATE TABLE AUTHORS (
+    author_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL
+);
+
+-- BOOKS TABLE
+DROP TABLE IF EXISTS BOOKS;
+CREATE TABLE BOOKS (
+    book_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author_id INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES AUTHORS(author_id)
+);
+
+-- CUSTOMERS TABLE
+DROP TABLE IF EXISTS CUSTOMERS;
+CREATE TABLE CUSTOMERS (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    address VARCHAR(255) NOT NULL
+);
+
+-- ORDERS TABLE
+DROP TABLE IF EXISTS ORDERS;
+CREATE TABLE ORDERS (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    order_date DATETIME NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES CUSTOMERS(customer_id)
+);
+
+-- ORDER_DETAILS TABLE
+DROP TABLE IF EXISTS ORDER_DETAILS;
+CREATE TABLE ORDER_DETAILS (
+    order_detail_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    book_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES ORDERS(order_id),
+    FOREIGN KEY (book_id) REFERENCES BOOKS(book_id)
+);
